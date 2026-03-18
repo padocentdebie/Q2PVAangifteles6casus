@@ -30,149 +30,173 @@
             box-shadow: 0 4px 10px rgba(0,0,0,0.1);
         }
 
+        /* Inlogscherm */
+        #login-overlay {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: var(--politie-blauw);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+
+        .login-card {
+            background: white;
+            padding: 40px;
+            border-radius: 4px;
+            width: 350px;
+            text-align: left;
+        }
+
+        .main-content { display: none; }
+
         header {
             border-bottom: 2px solid var(--politie-blauw);
             margin-bottom: 20px;
             padding-bottom: 10px;
         }
 
-        h1 { color: var(--politie-blauw); margin: 0; font-size: 24px; }
+        h1 { color: var(--politie-blauw); margin: 0; font-size: 22px; text-transform: uppercase; }
 
         /* Instructieblokje */
         .instruction-box {
-            background: #fff8e1;
-            border: 2px solid var(--politie-geel);
+            background: #f9f9f9;
+            border: 1px solid #ccc;
             padding: 20px;
-            border-radius: 5px;
             margin-bottom: 25px;
         }
 
-        .instruction-box h3 { margin-top: 0; color: var(--politie-blauw); }
-
         .login-info {
-            background: var(--wit);
+            background: #eee;
             padding: 10px;
-            border: 1px dashed #666;
-            display: inline-block;
+            border: 1px solid #999;
             margin-top: 10px;
-        }
-
-        .gem-link-container {
-            text-align: center;
-            margin: 20px 0;
+            font-family: monospace;
         }
 
         .btn-start {
             background-color: var(--politie-blauw);
             color: white;
-            padding: 15px 30px;
+            padding: 12px 24px;
             text-decoration: none;
-            border-radius: 4px;
+            border-radius: 2px;
             font-weight: bold;
             display: inline-block;
-            transition: transform 0.2s;
+            text-transform: uppercase;
         }
 
-        .btn-start:hover { transform: scale(1.05); background-color: #003380; }
-
-        .form-group { margin-bottom: 15px; }
-        label { display: block; font-weight: bold; margin-bottom: 5px; }
-
-        input, textarea {
-            width: 100%;
-            padding: 10px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-            box-sizing: border-box;
+        textarea { 
+            width: 100%; 
+            padding: 10px; 
+            border: 1px solid #999; 
+            border-radius: 2px; 
+            box-sizing: border-box; 
+            font-family: 'Courier New', Courier, monospace;
         }
 
-        #livefeed { margin-top: 40px; }
-
-        .pv-item {
-            background: #fff;
-            border: 1px solid #ddd;
-            padding: 15px;
-            margin-bottom: 20px;
-            border-radius: 4px;
+        .pv-item { 
+            background: #fff; 
+            border: 1px solid #ccc; 
+            padding: 15px; 
+            margin-bottom: 20px; 
         }
 
-        .pv-header {
-            font-weight: bold;
-            color: var(--politie-blauw);
-            border-bottom: 1px dashed #ccc;
-            margin-bottom: 10px;
-            padding-bottom: 5px;
+        .pv-header { 
+            font-weight: bold; 
+            color: var(--politie-blauw); 
+            border-bottom: 1px solid #eee; 
+            margin-bottom: 10px; 
         }
 
-        .feedback-section {
-            margin-top: 10px;
-            background: #f1f1f1;
-            padding: 10px;
-            font-style: italic;
-            border-left: 3px solid var(--politie-geel);
+        .feedback-section { 
+            margin-top: 10px; 
+            background: #ffffcc; 
+            padding: 10px; 
+            border-left: 4px solid var(--politie-geel); 
         }
 
-        .feedback-input-area { margin-top: 10px; display: none; }
+        .feedback-input-area { display: none; margin-top: 10px; }
 
-        .admin-section {
-            margin-top: 50px;
-            padding: 20px;
-            border: 1px dashed var(--gevaar-rood);
-            background: #fff5f5;
-            text-align: center;
+        .admin-section { margin-top: 60px; border-top: 1px solid #ddd; padding-top: 20px; text-align: right; }
+        
+        .btn-reset { 
+            background: var(--gevaar-rood); 
+            color: white; 
+            border: none; 
+            padding: 4px 8px; 
+            cursor: pointer; 
+            font-size: 10px; 
         }
-
-        .btn-reset { background-color: var(--gevaar-rood); color: white; padding: 5px 10px; border: none; cursor: pointer; }
     </style>
 </head>
 <body>
 
-<div class="container">
+<div id="login-overlay">
+    <div class="login-card">
+        <h2 style="color: var(--politie-blauw); margin-top:0;">LOGIN LES 6</h2>
+        <div style="margin-bottom: 15px;">
+            <label>Voornaam:</label>
+            <input type="text" id="userFirstName" style="width: 100%; padding: 8px; margin-top: 5px; border: 1px solid #999;">
+        </div>
+        <div style="margin-bottom: 20px;">
+            <label>NAVO-klas:</label>
+            <select id="userClass" style="width: 100%; padding: 8px; margin-top: 5px; border: 1px solid #999;">
+                <option value="Alpha">Alpha</option>
+                <option value="Bravo">Bravo</option>
+                <option value="Delta">Delta</option>
+                <option value="Echo">Echo</option>
+                <option value="Foxtrot">Foxtrot</option>
+                <option value="Golf">Golf</option>
+                <option value="Hotel">Hotel</option>
+                <option value="India">India</option>
+                <option value="Juliett">Juliett</option>
+                <option value="Kilo">Kilo</option>
+                <option value="Lima">Lima</option>
+                <option value="Mike">Mike</option>
+            </select>
+        </div>
+        <button onclick="startLesson()" style="background: var(--politie-blauw); color: white; width: 100%; padding: 12px; border: none; cursor: pointer; font-weight: bold;">TOEGANG</button>
+    </div>
+</div>
+
+<div class="container main-content" id="mainContent">
     <header>
-        <h1>PV Aangifte - Les 6 (Huiselijk Geweld)</h1>
-        <p>Klas: Alpha Bravo Echo Delta Echo Foxtrot Golf Juliett Kilo Lima Mike</p>
+        <h1>PROCES-VERBAAL VAN AANGIFTE - LES 6</h1>
+        <p id="classDisplay" style="font-weight:bold;"></p>
     </header>
 
     <div class="instruction-box">
-        <h3>📋 Instructies voor de student</h3>
+        <h3 style="margin-top:0; color:var(--politie-blauw);">STAPPENPLAN VERHOOR & AANGIFTE</h3>
         <ol>
-            <li>Klik op de knop <strong>'Start Verhoor'</strong> om het gesprek met het slachtoffer (Priscilla) te beginnen.</li>
-            <li>Gebruik de onderstaande gegevens om in te loggen bij de Gem:
+            <li><strong>Inloggen bij Google:</strong> Gebruik uitsluitend de onderstaande accountgegevens voor de Gem:
                 <div class="login-info">
-                    <strong>Gebruikersnaam:</strong> bpostudentleusden@gmail.com<br>
-                    <strong>Wachtwoord:</strong> Stud3ntl3usd3n
+                    E-mail: bpostudentleusden@gmail.com<br>
+                    Wachtwoord: Stud3ntl3usd3n
                 </div>
             </li>
-            <li>Achterhaal tijdens het verhoor de feiten, de context, de exacte geweldshandelingen en het letsel.</li>
-            <li>Noteer hieronder je officiële proces-verbaal van aangifte. Let op: wees zo gedetailleerd mogelijk!</li>
+            <li><strong>Verhoor:</strong> Start de interactie met Priscilla via de onderstaande knop. Vraag door naar de dynamiek van het geweld, de positie van de dader en de details van het trappenhuis.</li>
+            <li><strong>Rapportage:</strong> Stel het proces-verbaal op. Focus op de feitelijke omschrijving en de functionele beperkingen van het slachtoffer.</li>
         </ol>
     </div>
 
-    <div class="gem-link-container">
-        <a href="https://gemini.google.com/gem/1S-TbiyvMUv6QySJN4yJMjYbnyeg9lmul?usp=sharing" target="_blank" class="btn-start">▶ START VERHOOR (Priscilla)</a>
+    <div style="text-align: center; margin-bottom: 40px;">
+        <a href="https://gemini.google.com/gem/1S-TbiyvMUv6QySJN4yJMjYbnyeg9lmul?usp=sharing" target="_blank" class="btn-start">Start Verhoor Priscilla</a>
     </div>
 
-    <hr>
-
     <div id="submission-area">
-        <div class="form-group">
-            <label for="studentName">Voornaam Student:</label>
-            <input type="text" id="studentName" placeholder="Je eigen naam">
-        </div>
-        <div class="form-group">
-            <label for="pvText">Tekst Aangifte (PV):</label>
-            <textarea id="pvText" rows="10" placeholder="Type hier je volledige proces-verbaal..."></textarea>
-        </div>
-        <button onclick="submitPV()" style="background: var(--politie-blauw); color: white; padding: 10px 20px; border: none; border-radius: 4px; cursor: pointer; font-weight: bold;">Aangifte Definitief Inleveren</button>
+        <label style="font-weight:bold;">Tekst Proces-Verbaal:</label>
+        <textarea id="pvText" rows="12" placeholder="Start hier uw verslaglegging..."></textarea>
+        <button onclick="submitPV()" style="background: var(--politie-blauw); color: white; margin-top: 15px; padding: 12px 24px; border: none; cursor: pointer; font-weight: bold;">PV DEFINITIEF INLEVEREN</button>
     </div>
 
     <div id="livefeed">
-        <h2>Livefeed: Ingediende Aangiftes</h2>
-        <div id="feedContent">Laden van aangiftes...</div>
+        <h2 style="color: var(--politie-blauw); border-bottom: 2px solid var(--politie-blauw); padding-bottom: 5px;">LIVEFEED AANGIFTES</h2>
+        <div id="feedContent">Verbinding maken met database...</div>
     </div>
 
     <div class="admin-section">
-        <button class="btn-reset" onclick="resetDatabase()">RESET FEED (Docent)</button>
+        <button class="btn-reset" onclick="resetDatabase()">DATABASE RESET (BEVOEGD GEBRUIK)</button>
     </div>
 </div>
 
@@ -193,21 +217,30 @@
     const app = initializeApp(firebaseConfig);
     const db = getDatabase(app);
 
-    window.submitPV = function() {
-        const name = document.getElementById('studentName').value;
-        const text = document.getElementById('pvText').value;
+    let currentStudent = "";
+    let currentClass = "";
 
-        if (name && text) {
+    window.startLesson = function() {
+        currentStudent = document.getElementById('userFirstName').value;
+        currentClass = document.getElementById('userClass').value;
+        if(currentStudent) {
+            document.getElementById('login-overlay').style.display = 'none';
+            document.getElementById('mainContent').style.display = 'block';
+            document.getElementById('classDisplay').innerText = "GEBRUIKER: " + currentStudent.toUpperCase() + " | KLAS: " + currentClass.toUpperCase();
+        }
+    };
+
+    window.submitPV = function() {
+        const text = document.getElementById('pvText').value;
+        if (text) {
             push(ref(db, 'aangiftes'), {
-                student: name,
+                student: currentStudent,
+                klas: currentClass,
                 inhoud: text,
-                timestamp: Date.now(),
                 feedback: ""
             });
             document.getElementById('pvText').value = "";
-            alert("Je PV is ingeleverd en zichtbaar in de livefeed.");
-        } else {
-            alert("Vul a.u.b. je naam en de tekst in.");
+            alert("Systeemmelding: Proces-Verbaal succesvol opgeslagen.");
         }
     };
 
@@ -215,27 +248,23 @@
         const data = snapshot.val();
         const feed = document.getElementById('feedContent');
         feed.innerHTML = "";
-
         if (data) {
             Object.keys(data).reverse().forEach(key => {
                 const item = data[key];
                 feed.innerHTML += `
                     <div class="pv-item">
-                        <div class="pv-header">Door: ${item.student}</div>
+                        <div class="pv-header">${item.student.toUpperCase()} - KLAS ${item.klas.toUpperCase()}</div>
                         <p style="white-space: pre-wrap;">${item.inhoud}</p>
-                        ${item.feedback ? `<div class="feedback-section"><strong>Feedback:</strong> ${item.feedback}</div>` : ''}
-                        
-                        <button onclick="document.getElementById('input-${key}').style.display='block'" style="background:#888; color:white; font-size:11px; border:none; padding:5px; cursor:pointer;">Feedback toevoegen</button>
-                        
+                        ${item.feedback ? `<div class="feedback-section"><strong>FEEDBACK:</strong> ${item.feedback}</div>` : ''}
+                        <button onclick="document.getElementById('input-${key}').style.display='block'" style="font-size:10px; padding:2px 5px; cursor:pointer;">FEEDBACK TOEVOEGEN</button>
                         <div id="input-${key}" class="feedback-input-area">
-                            <textarea id="text-${key}" placeholder="Typ feedback voor deze student..."></textarea>
-                            <button onclick="saveFeedback('${key}')" style="background:var(--politie-geel); color:black; margin-top:5px; font-size:11px; border:none; padding:5px; cursor:pointer;">Opslaan</button>
+                            <textarea id="text-${key}" style="height:60px;"></textarea>
+                            <button onclick="saveFeedback('${key}')" style="background:var(--politie-geel); border:none; cursor:pointer; font-weight:bold; padding:5px;">BEVESTIGEN</button>
                         </div>
-                    </div>
-                `;
+                    </div>`;
             });
         } else {
-            feed.innerHTML = "Wachten op eerste aangifte...";
+            feed.innerHTML = "Geen records gevonden.";
         }
     });
 
@@ -245,7 +274,7 @@
     };
 
     window.resetDatabase = function() {
-        if (confirm("Let op: dit verwijdert ALLE aangiftes in de feed. Doorgaan?")) {
+        if (confirm("WAARSCHUWING: Alle data in de livefeed wordt definitief verwijderd. Doorgaan?")) {
             remove(ref(db, 'aangiftes'));
         }
     };
