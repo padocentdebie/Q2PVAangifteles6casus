@@ -38,16 +38,44 @@
 
         h1 { color: var(--politie-blauw); margin: 0; font-size: 24px; }
 
-        .gem-link {
-            background: #eef2f7;
-            padding: 15px;
+        /* Instructieblokje */
+        .instruction-box {
+            background: #fff8e1;
+            border: 2px solid var(--politie-geel);
+            padding: 20px;
             border-radius: 5px;
-            border-left: 5px solid var(--politie-geel);
             margin-bottom: 25px;
         }
 
-        .form-group { margin-bottom: 15px; }
+        .instruction-box h3 { margin-top: 0; color: var(--politie-blauw); }
 
+        .login-info {
+            background: var(--wit);
+            padding: 10px;
+            border: 1px dashed #666;
+            display: inline-block;
+            margin-top: 10px;
+        }
+
+        .gem-link-container {
+            text-align: center;
+            margin: 20px 0;
+        }
+
+        .btn-start {
+            background-color: var(--politie-blauw);
+            color: white;
+            padding: 15px 30px;
+            text-decoration: none;
+            border-radius: 4px;
+            font-weight: bold;
+            display: inline-block;
+            transition: transform 0.2s;
+        }
+
+        .btn-start:hover { transform: scale(1.05); background-color: #003380; }
+
+        .form-group { margin-bottom: 15px; }
         label { display: block; font-weight: bold; margin-bottom: 5px; }
 
         input, textarea {
@@ -57,18 +85,6 @@
             border-radius: 4px;
             box-sizing: border-box;
         }
-
-        button {
-            background-color: var(--politie-blauw);
-            color: white;
-            padding: 10px 20px;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-            font-weight: bold;
-        }
-
-        button:hover { opacity: 0.9; }
 
         #livefeed { margin-top: 40px; }
 
@@ -96,12 +112,8 @@
             border-left: 3px solid var(--politie-geel);
         }
 
-        .feedback-input-area {
-            margin-top: 10px;
-            display: none;
-        }
+        .feedback-input-area { margin-top: 10px; display: none; }
 
-        /* Reset Sectie */
         .admin-section {
             margin-top: 50px;
             padding: 20px;
@@ -110,10 +122,7 @@
             text-align: center;
         }
 
-        .btn-reset {
-            background-color: var(--gevaar-rood);
-            font-size: 12px;
-        }
+        .btn-reset { background-color: var(--gevaar-rood); color: white; padding: 5px 10px; border: none; cursor: pointer; }
     </style>
 </head>
 <body>
@@ -124,25 +133,38 @@
         <p>Klas: Alpha Bravo Echo Delta Echo Foxtrot Golf Juliett Kilo Lima Mike</p>
     </header>
 
-    <div class="gem-link">
-        <strong>Stap 1: Verhoor het slachtoffer</strong><br>
-        Open de interactie met Priscilla: 
-        <a href="https://gemini.google.com/gem/1S-TbiyvMUv6QySJN4yJMjYbnyeg9lmul?usp=sharing" target="_blank">Open de Casus Gem</a>
+    <div class="instruction-box">
+        <h3>📋 Instructies voor de student</h3>
+        <ol>
+            <li>Klik op de knop <strong>'Start Verhoor'</strong> om het gesprek met het slachtoffer (Priscilla) te beginnen.</li>
+            <li>Gebruik de onderstaande gegevens om in te loggen bij de Gem:
+                <div class="login-info">
+                    <strong>Gebruikersnaam:</strong> bpostudentleusden@gmail.com<br>
+                    <strong>Wachtwoord:</strong> Stud3ntl3usd3n
+                </div>
+            </li>
+            <li>Achterhaal tijdens het verhoor de feiten, de context, de exacte geweldshandelingen en het letsel.</li>
+            <li>Noteer hieronder je officiële proces-verbaal van aangifte. Let op: wees zo gedetailleerd mogelijk!</li>
+        </ol>
     </div>
 
-    <div id="login-section">
-        <div class="form-group">
-            <label for="studentName">Voornaam Student:</label>
-            <input type="text" id="studentName" placeholder="Bijv. Jan">
-        </div>
-        <div class="form-group">
-            <label for="pvText">Tekst Aangifte (PV):</label>
-            <textarea id="pvText" rows="8" placeholder="Beschrijf de feiten, de handelingen en het letsel..."></textarea>
-        </div>
-        <button onclick="submitPV()">Aangifte Inleveren</button>
+    <div class="gem-link-container">
+        <a href="https://gemini.google.com/gem/1S-TbiyvMUv6QySJN4yJMjYbnyeg9lmul?usp=sharing" target="_blank" class="btn-start">▶ START VERHOOR (Priscilla)</a>
     </div>
 
     <hr>
+
+    <div id="submission-area">
+        <div class="form-group">
+            <label for="studentName">Voornaam Student:</label>
+            <input type="text" id="studentName" placeholder="Je eigen naam">
+        </div>
+        <div class="form-group">
+            <label for="pvText">Tekst Aangifte (PV):</label>
+            <textarea id="pvText" rows="10" placeholder="Type hier je volledige proces-verbaal..."></textarea>
+        </div>
+        <button onclick="submitPV()" style="background: var(--politie-blauw); color: white; padding: 10px 20px; border: none; border-radius: 4px; cursor: pointer; font-weight: bold;">Aangifte Definitief Inleveren</button>
+    </div>
 
     <div id="livefeed">
         <h2>Livefeed: Ingediende Aangiftes</h2>
@@ -150,8 +172,7 @@
     </div>
 
     <div class="admin-section">
-        <p><small>Systeembeheer: Gebruik deze knop alleen om de lijst te legen voor een nieuwe klas.</small></p>
-        <button class="btn-reset" onclick="resetDatabase()">RESET DATABASE</button>
+        <button class="btn-reset" onclick="resetDatabase()">RESET FEED (Docent)</button>
     </div>
 </div>
 
@@ -172,7 +193,6 @@
     const app = initializeApp(firebaseConfig);
     const db = getDatabase(app);
 
-    // PV Indienen
     window.submitPV = function() {
         const name = document.getElementById('studentName').value;
         const text = document.getElementById('pvText').value;
@@ -185,13 +205,12 @@
                 feedback: ""
             });
             document.getElementById('pvText').value = "";
-            alert("Aangifte verzonden naar de livefeed.");
+            alert("Je PV is ingeleverd en zichtbaar in de livefeed.");
         } else {
-            alert("Naam en tekst zijn verplicht.");
+            alert("Vul a.u.b. je naam en de tekst in.");
         }
     };
 
-    // Livefeed ophalen
     onValue(ref(db, 'aangiftes'), (snapshot) => {
         const data = snapshot.val();
         const feed = document.getElementById('feedContent');
@@ -202,36 +221,32 @@
                 const item = data[key];
                 feed.innerHTML += `
                     <div class="pv-item">
-                        <div class="pv-header">Student: ${item.student}</div>
-                        <p>${item.inhoud}</p>
+                        <div class="pv-header">Door: ${item.student}</div>
+                        <p style="white-space: pre-wrap;">${item.inhoud}</p>
                         ${item.feedback ? `<div class="feedback-section"><strong>Feedback:</strong> ${item.feedback}</div>` : ''}
                         
-                        <button onclick="document.getElementById('input-${key}').style.display='block'" style="background:#888; font-size:11px;">Feedback toevoegen</button>
+                        <button onclick="document.getElementById('input-${key}').style.display='block'" style="background:#888; color:white; font-size:11px; border:none; padding:5px; cursor:pointer;">Feedback toevoegen</button>
                         
                         <div id="input-${key}" class="feedback-input-area">
-                            <textarea id="text-${key}" placeholder="Typ feedback..."></textarea>
-                            <button onclick="saveFeedback('${key}')" style="background:var(--politie-geel); color:black; margin-top:5px; font-size:11px;">Opslaan</button>
+                            <textarea id="text-${key}" placeholder="Typ feedback voor deze student..."></textarea>
+                            <button onclick="saveFeedback('${key}')" style="background:var(--politie-geel); color:black; margin-top:5px; font-size:11px; border:none; padding:5px; cursor:pointer;">Opslaan</button>
                         </div>
                     </div>
                 `;
             });
         } else {
-            feed.innerHTML = "Geen actieve aangiftes.";
+            feed.innerHTML = "Wachten op eerste aangifte...";
         }
     });
 
-    // Feedback Opslaan
     window.saveFeedback = function(key) {
         const fbText = document.getElementById(`text-${key}`).value;
         set(ref(db, `aangiftes/${key}/feedback`), fbText);
     };
 
-    // DE RESET FUNCTIE
     window.resetDatabase = function() {
-        if (confirm("WEET JE HET ZEKER? Dit verwijdert alle ingediende aangiftes en feedback van alle studenten.")) {
-            remove(ref(db, 'aangiftes'))
-                .then(() => alert("Database is weer helemaal leeg."))
-                .catch((error) => alert("Fout bij resetten: " + error.message));
+        if (confirm("Let op: dit verwijdert ALLE aangiftes in de feed. Doorgaan?")) {
+            remove(ref(db, 'aangiftes'));
         }
     };
 </script>
