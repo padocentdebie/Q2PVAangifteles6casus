@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PV Aangifte - Les 6 - Politieacademie</title>
+    <style>
+        :root {
+            --politie-blauw: #00205b;
+            --politie-geel: #fcc917;
+            --licht-grijs: #f4f4f4;
+            --wit: #ffffff;
+            --gevaar-rood: #d9534f;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background-color: var(--licht-grijs);
+            margin: 0;
+            padding: 20px;
+            color: #333;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: var(--wit);
+            padding: 30px;
+            border-top: 8px solid var(--politie-blauw);
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+
+        header {
+            border-bottom: 2px solid var(--politie-blauw);
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+        }
+
+        h1 { color: var(--politie-blauw); margin: 0; font-size: 24px; }
+
+        .gem-link {
+            background: #eef2f7;
+            padding: 15px;
+            border-radius: 5px;
+            border-left: 5px solid var(--politie-geel);
+            margin-bottom: 25px;
+        }
+
+        .form-group { margin-bottom: 15px; }
+
+        label { display: block; font-weight: bold; margin-bottom: 5px; }
+
+        input, textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+
+        button {
+            background-color: var(--politie-blauw);
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        button:hover { opacity: 0.9; }
+
+        #livefeed { margin-top: 40px; }
+
+        .pv-item {
+            background: #fff;
+            border: 1px solid #ddd;
+            padding: 15px;
+            margin-bottom: 20px;
+            border-radius: 4px;
+        }
+
+        .pv-header {
+            font-weight: bold;
+            color: var(--politie-blauw);
+            border-bottom: 1px dashed #ccc;
+            margin-bottom: 10px;
+            padding-bottom: 5px;
+        }
+
+        .feedback-section {
+            margin-top: 10px;
+            background: #f1f1f1;
+            padding: 10px;
+            font-style: italic;
+            border-left: 3px solid var(--politie-geel);
+        }
+
+        .feedback-input-area {
+            margin-top: 10px;
+            display: none;
+        }
+
+        /* Reset Sectie */
+        .admin-section {
+            margin-top: 50px;
+            padding: 20px;
+            border: 1px dashed var(--gevaar-rood);
+            background: #fff5f5;
+            text-align: center;
+        }
+
+        .btn-reset {
+            background-color: var(--gevaar-rood);
+            font-size: 12px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <header>
+        <h1>PV Aangifte - Les 6 (Huiselijk Geweld)</h1>
+        <p>Klas: Alpha Bravo Echo Delta Echo Foxtrot Golf Juliett Kilo Lima Mike</p>
+    </header>
+
+    <div class="gem-link">
+        <strong>Stap 1: Verhoor het slachtoffer</strong><br>
+        Open de interactie met Priscilla: 
+        <a href="https://gemini.google.com/gem/1S-TbiyvMUv6QySJN4yJMjYbnyeg9lmul?usp=sharing" target="_blank">Open de Casus Gem</a>
+    </div>
+
+    <div id="login-section">
+        <div class="form-group">
+            <label for="studentName">Voornaam Student:</label>
+            <input type="text" id="studentName" placeholder="Bijv. Jan">
+        </div>
+        <div class="form-group">
+            <label for="pvText">Tekst Aangifte (PV):</label>
+            <textarea id="pvText" rows="8" placeholder="Beschrijf de feiten, de handelingen en het letsel..."></textarea>
+        </div>
+        <button onclick="submitPV()">Aangifte Inleveren</button>
+    </div>
+
+    <hr>
+
+    <div id="livefeed">
+        <h2>Livefeed: Ingediende Aangiftes</h2>
+        <div id="feedContent">Laden van aangiftes...</div>
+    </div>
+
+    <div class="admin-section">
+        <p><small>Systeembeheer: Gebruik deze knop alleen om de lijst te legen voor een nieuwe klas.</small></p>
+        <button class="btn-reset" onclick="resetDatabase()">RESET DATABASE</button>
+    </div>
+</div>
+
+<script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+    import { getDatabase, ref, push, onValue, set, remove } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
+
+    const firebaseConfig = {
+        apiKey: "AIzaSyBj8dXkl1rEfyx54_MDy_tYd2P7kAeU8VQ",
+        authDomain: "q2les3samirgem.firebaseapp.com",
+        databaseURL: "https://q2les3samirgem-default-rtdb.europe-west1.firebasedatabase.app",
+        projectId: "q2les3samirgem",
+        storageBucket: "q2les3samirgem.firebasestorage.app",
+        messagingSenderId: "8681998187",
+        appId: "1:8681998187:web:fd08067494a010dc572e2e"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const db = getDatabase(app);
+
+    // PV Indienen
+    window.submitPV = function() {
+        const name = document.getElementById('studentName').value;
+        const text = document.getElementById('pvText').value;
+
+        if (name && text) {
+            push(ref(db, 'aangiftes'), {
+                student: name,
+                inhoud: text,
+                timestamp: Date.now(),
+                feedback: ""
+            });
+            document.getElementById('pvText').value = "";
+            alert("Aangifte verzonden naar de livefeed.");
+        } else {
+            alert("Naam en tekst zijn verplicht.");
+        }
+    };
+
+    // Livefeed ophalen
+    onValue(ref(db, 'aangiftes'), (snapshot) => {
+        const data = snapshot.val();
+        const feed = document.getElementById('feedContent');
+        feed.innerHTML = "";
+
+        if (data) {
+            Object.keys(data).reverse().forEach(key => {
+                const item = data[key];
+                feed.innerHTML += `
+                    <div class="pv-item">
+                        <div class="pv-header">Student: ${item.student}</div>
+                        <p>${item.inhoud}</p>
+                        ${item.feedback ? `<div class="feedback-section"><strong>Feedback:</strong> ${item.feedback}</div>` : ''}
+                        
+                        <button onclick="document.getElementById('input-${key}').style.display='block'" style="background:#888; font-size:11px;">Feedback toevoegen</button>
+                        
+                        <div id="input-${key}" class="feedback-input-area">
+                            <textarea id="text-${key}" placeholder="Typ feedback..."></textarea>
+                            <button onclick="saveFeedback('${key}')" style="background:var(--politie-geel); color:black; margin-top:5px; font-size:11px;">Opslaan</button>
+                        </div>
+                    </div>
+                `;
+            });
+        } else {
+            feed.innerHTML = "Geen actieve aangiftes.";
+        }
+    });
+
+    // Feedback Opslaan
+    window.saveFeedback = function(key) {
+        const fbText = document.getElementById(`text-${key}`).value;
+        set(ref(db, `aangiftes/${key}/feedback`), fbText);
+    };
+
+    // DE RESET FUNCTIE
+    window.resetDatabase = function() {
+        if (confirm("WEET JE HET ZEKER? Dit verwijdert alle ingediende aangiftes en feedback van alle studenten.")) {
+            remove(ref(db, 'aangiftes'))
+                .then(() => alert("Database is weer helemaal leeg."))
+                .catch((error) => alert("Fout bij resetten: " + error.message));
+        }
+    };
+</script>
+
+</body>
+</html>
